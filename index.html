@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Faheem's Cute Product Store</title>
 
-  <!-- ✅ SEO Meta Tags -->
   <meta name="description" content="Buy cute products like bags, necklaces, and headsets. Perfect for gifts and fashion lovers!">
   <meta name="keywords" content="faheem store, kawaii bags, headset, sanrio, cute fashion, online gift shop">
   <meta name="author" content="Faheemul Hassan">
@@ -68,6 +67,9 @@
       cursor: pointer;
       border: none;
     }
+    .product button {
+      margin-top: 5px;
+    }
     .product a:hover, .product button:hover {
       background: #005577;
     }
@@ -111,14 +113,13 @@
         link: "https://s.click.aliexpress.com/e/_on89U6e"
       },
       {
-        name: "Stereo P47 Headset 5.0 Bluetooth Headset Folding Series Wireless Sports Game Headset for iPhone XiaoMi",
+        name: "Stereo P47 Headset Bluetooth 5.0",
         img: "https://ae-pic-a1.aliexpress-media.com/kf/Se33cca1115cb4c22aee4ffc9ae52a682f.jpg_220x220q75.jpg_.avif",
         link: "https://s.click.aliexpress.com/e/_ol7icQ8"
       }
     ];
 
     const urlParams = new URLSearchParams(window.location.search);
-    const adminMode = urlParams.get('admin') === '1';
     const productId = urlParams.get('p');
 
     const container = document.getElementById("productContainer");
@@ -128,8 +129,7 @@
 
       let filtered = products;
 
-      // If specific product is requested via ?p=1
-      if (productId && !adminMode) {
+      if (productId) {
         const index = parseInt(productId) - 1;
         if (products[index]) {
           filtered = [products[index]];
@@ -150,7 +150,8 @@
           <img src="${product.img}" alt="${product.name}">
           <h3>${product.name}</h3>
           <a href="${product.link}" target="_blank">Click Now for More Detail</a>
-          ${adminMode ? `<br/><br/><button onclick="copyToClipboard('${window.location.origin + window.location.pathname}?p=${index + 1}')">📋 Copy Link</button>` : ''}
+          <br/>
+          <button onclick="copyToClipboard('${window.location.origin + window.location.pathname}?p=${index + 1}')">📋 Copy Link</button>
         `;
         container.appendChild(div);
       });
