@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Faheem's Cute Product Store</title>
+
+  <!-- ✅ SEO Meta Tags -->
+  <meta name="description" content="Buy cute products like bags, necklaces, and headsets. Perfect for gifts and fashion lovers!">
+  <meta name="keywords" content="faheem store, kawaii bags, headset, sanrio, cute fashion, online gift shop">
+  <meta name="author" content="Faheemul Hassan">
+  <meta name="robots" content="index, follow">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0088cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      margin-top: 10px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+    }
+    .product {
+      width: 18%;
+      margin: 1%;
+      background: white;
+      padding: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .product:hover {
+      transform: scale(1.03);
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+    }
+    .product h3 {
+      font-size: 16px;
+      margin: 10px 0 5px;
+    }
+    .product a, .product button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #0088cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+    }
+    .product a:hover, .product button:hover {
+      background: #005577;
+    }
+    @media (max-width: 1024px) {
+      .product {
+        width: 45%;
+      }
+    }
+    @media (max-width: 768px) {
+      .product {
+        width: 90%;
+        margin: 5px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Faheem's Cute Product Store</h1>
+    <input type="text" placeholder="Search Products..." id="searchInput">
+  </header>
+
+  <div class="container" id="productContainer"></div>
+
+  <script>
+    const products = [
+      {
+        name: "Disney Cartoon Stitch Children Chest Bag",
+        img: "https://ae-pic-a1.aliexpress-media.com/kf/S688c1b8109994cd098bf9086440abf5ee.jpg_220x220q75.jpg_.avif",
+        link: "https://s.click.aliexpress.com/e/_on5fIYE"
+      },
+      {
+        name: "Hello Kitty Pendant Necklace",
+        img: "https://ae-pic-a1.aliexpress-media.com/kf/S2494e5ff2ef142a2a4e10dece086e394E.jpg_220x220q75.jpg_.avif",
+        link: "https://s.click.aliexpress.com/e/_oDFcciA"
+      },
+      {
+        name: "Sanrio Plush Handbag",
+        img: "https://ae-pic-a1.aliexpress-media.com/kf/Sa848be181d954d3d90b95cbee7de8610d.jpg_220x220q75.jpg_.avif",
+        link: "https://s.click.aliexpress.com/e/_on89U6e"
+      },
+      {
+        name: "Stereo P47 Headset 5.0 Bluetooth Headset Folding Series Wireless Sports Game Headset for iPhone XiaoMi",
+        img: "https://ae-pic-a1.aliexpress-media.com/kf/Se33cca1115cb4c22aee4ffc9ae52a682f.jpg_220x220q75.jpg_.avif",
+        link: "https://s.click.aliexpress.com/e/_ol7icQ8"
+      }
+    ];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('p');
+
+    const container = document.getElementById("productContainer");
+
+    function renderProducts(filter = "") {
+      container.innerHTML = "";
+
+      let filtered = products;
+
+      if (productId) {
+        const index = parseInt(productId) - 1;
+        if (products[index]) {
+          filtered = [products[index]];
+        } else {
+          container.innerHTML = "<p>Product not found.</p>";
+          return;
+        }
+      } else if (filter) {
+        filtered = products.filter(p =>
+          p.name.toLowerCase().includes(filter.toLowerCase())
+        );
+      }
+
+      filtered.forEach((product, index) => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <a href="${product.link}" target="_blank">Click Now for More Detail</a>
+          <br/><br/><button onclick="copyToClipboard('${window.location.origin + window.location.pathname}?p=${index + 1}')">📋 Copy Link</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Product link copied!");
+      }).catch(err => {
+        alert("Failed to copy link: " + err);
+      });
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      renderProducts(e.target.value);
+    });
+
+    renderProducts();
+  </script>
+
+</body>
+</html>
